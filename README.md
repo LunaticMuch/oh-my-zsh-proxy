@@ -79,7 +79,7 @@ It is possible at any time to manually change proxy settings on configuration fi
 
 - `http_proxy`: http proxy server to be used
 - `no_proxy`: list of proxy exclusions, comma separated
-- `npm_repo`: custom npm repository to be activated in proxy enviroment
+- `npm_registry`: custom npm registry to be activated in proxy enviroment
 
 ## Uninstallation
 
