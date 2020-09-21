@@ -49,7 +49,7 @@ __config_proxy() {
 
 # Proxy for terminal
 
-__enable_proxy_all() {
+__enable_proxy_shell() {
 	# http_proxy
 	export http_proxy="${__ZSHPROXY_HTTP}"
 	export HTTP_PROXY="${__ZSHPROXY_HTTP}"
@@ -68,7 +68,7 @@ __enable_proxy_all() {
 	export no_proxy="${__ZSHPROXY_NO_PROXY}"
 }
 
-__disable_proxy_all() {
+__disable_proxy_shell() {
 	unset http_proxy
 	unset HTTP_PROXY
 	unset https_proxy
@@ -101,15 +101,13 @@ __enable_proxy_npm() {
 		npm config set https-proxy "${__ZSHPROXY_HTTP}"
 		npm config set noproxy "${__ZSHPROXY_NO_PROXY}"
 		npm config set registry "${__ZSHPROXY_NPM_REGISTRY}"
-		echo "- npm"
 	fi
-	if command -v yarn >/dev/null; then
-		yarn config set proxy "${__ZSHPROXY_HTTP}" >/dev/null 2>&1
-		yarn config set https-proxy "${__ZSHPROXY_HTTP}" >/dev/null 2>&1
-		yarn config set noproxy "${__ZSHPROXY_NO_PROXY}" >/dev/null 2>&1
-		yarn config set registry "${__ZSHPROXY_NPM_REGISTRY}" >/dev/null 2>&1
-		echo "- yarn"
-	fi
+	# if command -v yarn >/dev/null; then
+	# 	yarn config set proxy "${__ZSHPROXY_HTTP}" >/dev/null 2>&1
+	# 	yarn config set https-proxy "${__ZSHPROXY_HTTP}" >/dev/null 2>&1
+	# 	yarn config set noproxy "${__ZSHPROXY_NO_PROXY}" >/dev/null 2>&1
+	# 	yarn config set registry "${__ZSHPROXY_NPM_REGISTRY}" >/dev/null 2>&1
+	# fi
 }
 
 __disable_proxy_npm() {
@@ -119,12 +117,12 @@ __disable_proxy_npm() {
 		npm config delete noproxy
 		npm config delete registry
 	fi
-	if command -v yarn >/dev/null; then
-		yarn config delete proxy >/dev/null 2>&1
-		yarn config delete https-proxy >/dev/null 2>&1
-		yarn config delete noproxy >/dev/null 2>&1
-		yarn config delete registry >/dev/null 2>&1
-	fi
+	# if command -v yarn >/dev/null; then
+	# 	yarn config delete proxy >/dev/null 2>&1
+	# 	yarn config delete https-proxy >/dev/null 2>&1
+	# 	yarn config delete noproxy >/dev/null 2>&1
+	# 	yarn config delete registry >/dev/null 2>&1
+	# fi
 }
 
 # ==================================================
@@ -142,31 +140,31 @@ __enable_proxy() {
 	else
 		echo "========================================"
 		echo -n "Resetting proxy... "
-		__disable_proxy_all
-		__disable_proxy_git
-		__disable_proxy_npm
+		#__disable_proxy_all
+		#__disable_proxy_git
+		#__disable_proxy_npm
 		echo "Done!"
 		echo "----------------------------------------"
 		echo "Enable proxy for:"
 		echo "- shell"
-		__enable_proxy_all
+		__enable_proxy_shell
 		echo "- git"
 		__enable_proxy_git
-		# npm & yarn"
+		echo "- npm"
 		__enable_proxy_npm
 		echo "Done!"
 	fi
 }
 
 __disable_proxy() {
-	__disable_proxy_all
+	__disable_proxy_shell
 	__disable_proxy_git
 	__disable_proxy_npm
 }
 
 __auto_proxy() {
 	if [ "${__ZSHPROXY_STATUS}" = "1" ]; then
-		__enable_proxy_all
+		__enable_proxy_shell
 	fi
 }
 
